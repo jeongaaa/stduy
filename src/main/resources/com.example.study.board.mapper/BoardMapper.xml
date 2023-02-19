@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stduy.board.mapper.BoardMapper">
+    <select id="selectList" resultMap="com.example.stduy.board.model.Board">
+        SELECT * FROM BOARD
+    </select>
+
+    <select id="select" resultMap="com.example.stduy.board.model.Board">
+        SELECT * FROM BOARD WHERE BOARD_NO = #{boardNo}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM BOARD WHERE BOARD_NO = #{boardNo}
+    </delete>
+
+    <update id="update">
+        UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content}  WHERE BOARD_NO = #{boardNo}
+    </update>
+
+    <select id="selectMyList" resultMap="com.example.stduy.board.model.Board">
+        SELECT *
+        FROM
+            BOARD B LEFT JOIN MEMBER M ON M.WRITER = M.USERID
+    </select>
+
+    <insert id="insert">
+        INSERT INTO BOARD (TITLE, WRITER, CONTENT)
+        VALUES (#{title}, #{writer}, #{content})
+        <selectKey order="AFTER" resultType="long" keyProperty="boardNo">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+</mapper>
